@@ -1,0 +1,16 @@
+[Unit]
+Description=Uploader Monitor - Video Upload Control
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/jet/video_manager/uploader-monitor
+Restart=always
+RestartSec=5
+User=jet
+WorkingDirectory=/home/jet/video_manager
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

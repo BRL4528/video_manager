@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/video_uploader.dir/main.cpp.o -o video_uploader 

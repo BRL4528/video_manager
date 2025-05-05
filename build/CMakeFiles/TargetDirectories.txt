@@ -1,3 +1,3 @@
-/home/jet/projects/video_manager/build/CMakeFiles/video_uploader.dir
+/home/jet/projects/video_manager/build/CMakeFiles/uploader-monitor.dir
 /home/jet/projects/video_manager/build/CMakeFiles/edit_cache.dir
 /home/jet/projects/video_manager/build/CMakeFiles/rebuild_cache.dir

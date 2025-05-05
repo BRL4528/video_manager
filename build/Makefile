@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named video_uploader
+# Target rules for targets named uploader-monitor
 
 # Build rule for target.
-video_uploader: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 video_uploader
-.PHONY : video_uploader
+uploader-monitor: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 uploader-monitor
+.PHONY : uploader-monitor
 
 # fast build rule for target.
-video_uploader/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/video_uploader.dir/build.make CMakeFiles/video_uploader.dir/build
-.PHONY : video_uploader/fast
+uploader-monitor/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/uploader-monitor.dir/build.make CMakeFiles/uploader-monitor.dir/build
+.PHONY : uploader-monitor/fast
 
 main.o: main.cpp.o
 .PHONY : main.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/video_uploader.dir/build.make CMakeFiles/video_uploader.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/uploader-monitor.dir/build.make CMakeFiles/uploader-monitor.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -142,7 +142,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/video_uploader.dir/build.make CMakeFiles/video_uploader.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/uploader-monitor.dir/build.make CMakeFiles/uploader-monitor.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -150,7 +150,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/video_uploader.dir/build.make CMakeFiles/video_uploader.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/uploader-monitor.dir/build.make CMakeFiles/uploader-monitor.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -161,7 +161,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... video_uploader"
+	@echo "... uploader-monitor"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
