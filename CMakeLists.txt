@@ -12,15 +12,19 @@ find_package(ixwebsocket REQUIRED)
 
 find_package(ZLIB REQUIRED)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(CURL REQUIRED libcurl)
+
 # Adicionar o executável
 add_executable(uploader-monitor main.cpp)
 
-target_link_libraries(uploader-monitor PRIVATE ZLIB::ZLIB)
+
+target_link_libraries(uploader-monitor PRIVATE ZLIB::ZLIB pthread PRIVATE ${CURL_LIBRARIES})
 
 
 
 # Incluir o diretório de headers do ixwebsocket
-target_include_directories(uploader-monitor PRIVATE /usr/include/ixwebsocket)
+target_include_directories(uploader-monitor PRIVATE /usr/include/ixwebsocket PRIVATE ${CURL_INCLUDE_DIRS})
 
 # Linkar a biblioteca ixwebsocket
 target_link_libraries(uploader-monitor

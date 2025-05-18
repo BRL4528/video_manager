@@ -14,6 +14,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <ixwebsocket/IXWebSocket.h>
+#include <curl/curl.h>
+
 
 namespace fs = std::filesystem;
 
@@ -33,6 +35,22 @@ std::atomic<pid_t> ffmpeg_pid(-1);
 std::queue<std::string> uploadQueue;
 std::mutex queueMutex;
 std::condition_variable queueCV;
+
+void notifyValidation() {
+    CURL* curl = curl_easy_init();
+    if (curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, "https://node.pigtek.com.br/scores/validate");
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        CURLcode res = curl_easy_perform(curl);
+        if (res != CURLE_OK) {
+            std::cerr << "⚠️ Erro ao chamar rota de validação: " << curl_easy_strerror(res) << std::endl;
+        } else {
+            std::cout << "📡 Validação notificada com sucesso!" << std::endl;
+        }
+        curl_easy_cleanup(curl);
+    }
+}
+
 
 // Função para checar se arquivo está completo
 bool isFileComplete(const fs::path& file) {
@@ -103,18 +121,19 @@ bool uploadVideo(const std::string& filePath) {
         ffmpeg_pid = -1;
 
         if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
-            std::cout << "✅ Upload concluído, excluindo: " << filePath << std::endl;
-            try {
-                fs::remove(filePath);
-            } catch (const fs::filesystem_error& e) {
-                std::cerr << "⚠️ Erro ao excluir arquivo: " << e.what() << std::endl;
-            }
-            return true;
+        std::cout << "✅ Upload concluído, excluindo: " << filePath << std::endl;
+        try {
+            fs::remove(filePath);
+        } catch (const fs::filesystem_error& e) {
+            std::cerr << "⚠️ Erro ao excluir arquivo: " << e.what() << std::endl;
+        }
         } else {
             std::cerr << "❌ Falha no envio: " << filePath << std::endl;
-            return false;
         }
-    }
+
+        notifyValidation(); // chamada à API, independentemente do resultado
+        return true;
+        }
 }
 
 // Thread que processa a fila de uploads
@@ -173,6 +192,8 @@ void websocketListener(const std::string& wsUrl) {
 
 int main() {
     std::cout << "🎥 Monitor de envio de vídeos iniciado..." << std::endl;
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+
 
     const std::string wsUrl = "ws://localhost:3333";
 
@@ -183,6 +204,8 @@ int main() {
     scannerThread.join();
     uploaderThread.join();
     websocketThread.join();
+    curl_global_cleanup();
+
 
     return 0;
 }
